@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-xxl-12">
+    <nb-card [nbSpinner]="loading">
+      <nb-card-body><h4>Overview</h4></nb-card-body>
+    </nb-card>  
+  </div>
+</div>
+<div *ngIf="!isDetail" class="row">
+  <div class="col-xxl-12">  
+    <nb-card *ngIf="!loading">
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item>
+            <div class="row">
+              <div class="col-xxl-4"><h4>Name</h4></div>
+              <div class="col-xxl-4"><h4>Size (Byte)</h4></div>
+              <div class="col-xxl-4"><h4>Creation Date</h4></div>
+            </div>
+          </nb-list-item>
+          <nb-list-item *ngFor="let rosbag of rosbagList" class="selectable-rosbag" (click)="goToRosbag(rosbag.filename)">
+            <div class="row">
+              <div class="col-xxl-4">{{ rosbag.filename.split('.')[0] }}</div>
+              <div class="col-xxl-4">{{ rosbag.size }}</div>
+              <div class="col-xxl-4">{{ rosbag.created }}</div>
+            </div>
+          </nb-list-item>
+        </nb-list>  
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<div *ngIf="isDetail && !loading" class="row">
+  <div class="col-xxl-8">
+    <div class="row">
+      <div class="col-xxl-6">
+        <nb-card>
+          <nb-card-header>
+            Topics
+          </nb-card-header>
+          <nb-card-body>
+            <div class="highlight-number">
+              {{ topicCount }}
+            </div>
+          </nb-card-body>
+        </nb-card>  
+      </div>
+      <div class="col-xxl-6">
+        <nb-card>
+          <nb-card-header>
+            Length (s)
+          </nb-card-header>
+          <nb-card-body>
+            <div class="highlight-number">
+              {{ rosbagLength | number:'1.1-2' }}
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xxl-12">
+        <nb-card>
+          <nb-card-header>Topic List</nb-card-header>
+          <nb-card-body>
+            <nb-list>
+              <nb-list-item>
+                <div class="row">
+                  <div class="col-xxl-8">
+                    <h6>Topic Name</h6>
+                  </div>
+                  <div class="col-xxl-2">
+                    <h6>Message Count</h6>
+                  </div>
+                  <div class="col-xxl-2">
+                    <h6>Message Frequency</h6>
+                  </div>
+                </div>
+              </nb-list-item>
+              <nb-list-item *ngFor="let topic of rosbagTopicMeta">
+                <div class="row">
+                  <div class="col-xxl-8">
+                    {{topic.name}}
+                  </div>
+                  <div class="col-xxl-2">
+                    {{topic.message_count}}
+                  </div>
+                  <div class="col-xxl-2">
+                    {{topic.frequency | number:'1.1-2'}}
+                  </div>
+                </div>
+              </nb-list-item>
+            </nb-list>
+          </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-6">
+    <nb-card *ngIf="loading">
+      <nb-card-body>
+        Bild
+      </nb-card-body>
+    </nb-card>  
+  </div>
+</div>
